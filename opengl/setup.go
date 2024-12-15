@@ -18,6 +18,9 @@ var (
 
 	lastFrame time.Time = time.Now()
 	nbFrames  int       = 0
+
+	fractalIndex    = 0
+	lastIterationNb = 0
 )
 
 func init() {
@@ -64,8 +67,9 @@ func DoSetup(width, height int, title string) {
 
 	for !window.ShouldClose() {
 
-		if lastDraw.Add(time.Second / fps).Before(time.Now()) {
-			fpsCounter(window)
+		if lastDraw.Add(time.Second * 2).Before(time.Now()) {
+
+			// fpsCounter(window)
 
 			gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
@@ -82,10 +86,62 @@ func DoSetup(width, height int, title string) {
 
 func DrawFractal() {
 	fHandler := fractals.Handler{ShaderProgram: shaderProgram}
+
 	// fHandler.DrawMountain(9)
-	// fHandler.DrawDragonCurve(15)
-	// fHandler.DrawSponge(4)
-	fHandler.DrawTriangle(6)
+
+	switch fractalIndex {
+	case 0:
+		fHandler.DrawDragonCurve(lastIterationNb)
+
+		if lastIterationNb < 20 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 1:
+		fHandler.DrawSponge(lastIterationNb)
+
+		if lastIterationNb < 6 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 2:
+		fHandler.DrawTriangle(lastIterationNb)
+
+		if lastIterationNb < 6 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 3:
+		fHandler.DrawKoch(lastIterationNb)
+
+		if lastIterationNb < 6 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 4:
+		fHandler.DrawVicsekStar(lastIterationNb)
+
+		if lastIterationNb < 6 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 5:
+		fHandler.DrawVicsekCross(lastIterationNb)
+
+		if lastIterationNb < 6 {
+			lastIterationNb++
+		}
+	}
 }
 
 func fpsCounter(window *glfw.Window) {
