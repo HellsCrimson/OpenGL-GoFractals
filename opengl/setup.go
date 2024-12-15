@@ -65,26 +65,30 @@ func DoSetup(width, height int, title string) {
 
 	lastDraw := time.Now().Add(-time.Second)
 
+	isLast := false
+
 	for !window.ShouldClose() {
 
-		if lastDraw.Add(time.Second * 2).Before(time.Now()) {
+		if lastDraw.Add(time.Second).Before(time.Now()) {
 
 			// fpsCounter(window)
 
-			gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+			if !isLast {
+				gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-			DrawFractal()
+				isLast = DrawFractal()
 
-			window.SwapBuffers()
+				window.SwapBuffers()
 
-			lastDraw = time.Now()
+				lastDraw = time.Now()
+			}
 		}
 
 		glfw.PollEvents()
 	}
 }
 
-func DrawFractal() {
+func DrawFractal() bool {
 	fHandler := fractals.Handler{ShaderProgram: shaderProgram}
 
 	// fHandler.DrawMountain(9)
@@ -93,7 +97,7 @@ func DrawFractal() {
 	case 0:
 		fHandler.DrawDragonCurve(lastIterationNb)
 
-		if lastIterationNb < 20 {
+		if lastIterationNb < 19 {
 			lastIterationNb++
 		} else {
 			lastIterationNb = 0
@@ -140,8 +144,58 @@ func DrawFractal() {
 
 		if lastIterationNb < 6 {
 			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 6:
+		fHandler.DrawVicsekTree(lastIterationNb)
+
+		if lastIterationNb < 5 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 7:
+		fHandler.DrawVicsekTreeInv(lastIterationNb)
+
+		if lastIterationNb < 5 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 8:
+		fHandler.DrawVicsekTreeComb(lastIterationNb)
+
+		if lastIterationNb < 5 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 9:
+		fHandler.DrawVicsekTreeCombInv(lastIterationNb)
+
+		if lastIterationNb < 5 {
+			lastIterationNb++
+		} else {
+			lastIterationNb = 0
+			fractalIndex++
+		}
+	case 10:
+		fHandler.DrawBinaryCanopy(lastIterationNb, 90.0)
+
+		if lastIterationNb < 10 {
+			lastIterationNb++
+		} else {
+			// lastIterationNb = 0
+			// fractalIndex++
+			return true
 		}
 	}
+	return false
 }
 
 func fpsCounter(window *glfw.Window) {
