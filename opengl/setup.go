@@ -63,5 +63,6 @@ func DrawFractal() {
 	fHandler := fractals.Handler{ShaderProgram: shaderProgram}
 	// fHandler.DrawMountain(9)
 	// fHandler.DrawDragonCurve(20)
-	fHandler.DrawSponge(0)
+	// fHandler.DrawSponge(4)
+	fHandler.DrawTriangle(4)
 }
