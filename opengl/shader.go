@@ -20,7 +20,7 @@ func createShaderProgram() uint32 {
 	uniform vec3 lineColor;
 
 	void main() {
-		fragColor = vec4(lineColor, 1.0); // White color
+		fragColor = vec4(lineColor, 1.0);
 	}` + "\x00"
 
 	// Compile vertex shader
