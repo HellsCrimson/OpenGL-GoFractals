@@ -4,7 +4,7 @@ import (
 	"github.com/go-gl/gl/v4.6-core/gl"
 )
 
-func DrawLine(p1, p2 Point) {
+func DrawLine(p1, p2 Point, color [3]float32, shaderProgram uint32) {
 	vertices := []float32{
 		p1.X, p1.Y, 0.0,
 		p2.X, p2.Y, 0.0,
@@ -25,7 +25,11 @@ func DrawLine(p1, p2 Point) {
 	gl.VertexAttribPointer(0, 3, gl.FLOAT, false, 0, gl.PtrOffset(0))
 
 	// Use the shader program
-	//gl.UseProgram(shaderProgram)
+	gl.UseProgram(shaderProgram)
+
+	// Set the line color
+	colorUniform := gl.GetUniformLocation(shaderProgram, gl.Str("lineColor\x00"))
+	gl.Uniform3fv(colorUniform, 1, &color[0])
 
 	// Draw the line
 	gl.DrawArrays(gl.LINES, 0, 2)

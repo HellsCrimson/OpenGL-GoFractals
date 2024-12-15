@@ -17,8 +17,10 @@ func createShaderProgram() uint32 {
 	// Fragment shader source code
 	fragmentShaderSource := `#version 460 core
 	out vec4 fragColor;
+	uniform vec3 lineColor;
+
 	void main() {
-		fragColor = vec4(1.0, 0.0, 0.0, 1.0); // White color
+		fragColor = vec4(lineColor, 1.0); // White color
 	}` + "\x00"
 
 	// Compile vertex shader

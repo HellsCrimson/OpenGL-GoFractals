@@ -60,6 +60,8 @@ func DoSetup(width, height int, title string) {
 }
 
 func DrawFractal() {
-	// fractals.DrawMountain(9)
-	fractals.DrawDragonCurve(19)
+	fHandler := fractals.Handler{ShaderProgram: shaderProgram}
+	// fHandler.DrawMountain(9)
+	// fHandler.DrawDragonCurve(20)
+	fHandler.DrawSponge(2)
 }
